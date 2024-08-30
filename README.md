@@ -24,10 +24,13 @@ This repository contains R functions designed to compare methods across a CSV fi
 
 ### 1. Package
 
-First, install and call the package 
+First, install the package via github
 
 ```r
-library(pairComparision)
+# install.packages("devtools")
+library("devtools")
+devtools::install_github("https://github.com/cissagatto/pairComparison")
+library(pairComparison)
 ```
 
 ### 2. Computing
@@ -40,15 +43,14 @@ library(pairComparision)
 
 names.methods <- c("Model_1", "Model_2", "Model_3", "Model_4")
 
-filename <- "C:/Users/Cissa/Documents/pairComparison/data/accuracy.csv"
+filename <- "~/pairComparison/data/accuracy.csv"
 
 results = pair.comparison(filename = filename, 
                 FolderOrigin = FolderData,
                 FolderDestiny = FolderResults, 
                 measure.name = "accuracy",
-                names.methods = names.methods) 
-                
-# Acessando os resultados para uma medida específica
+                names.methods = names.methods)                
+
 print(results$Accuracy$greater_or_equal)
 print(results$Accuracy$greater)
 print(results$Accuracy$less_or_equal)
@@ -91,8 +93,7 @@ results  = pair.comparison.all.measures(names.csvs = full_paths,
                              FolderDestiny = FolderResults,
                              names.methods = names.methods, 
                              names.measures = measure_names)
-                             
-# Acessando os resultados
+
 print(results$greater_or_equal)
 print(results$greater)
 print(results$less_or_equal)
@@ -117,8 +118,6 @@ For a given CSV file, the result might look like this:
 
 In this matrix:
 - The cell at row `Model_1` and column `Model_2` shows `9`, meaning `Model_1` outperforms `Model_2` in 9 datasets.
-
-
 
 
 ## Function
