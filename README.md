@@ -10,7 +10,7 @@ This repository contains R functions designed to compare methods across a CSV fi
 ```plaintext
 @misc{pairComparison2024,
   author = {Elaine Cecília Gatto},
-  title = {pairComparisonL: A package to performing comparisons between pairs of methods. },  
+  title = {pairComparison: A package to performing comparisons between pairs of methods. },  
   year = {2024},
   note = {R package version 0.1.0. Licensed under CC BY-NC-SA 4.0},
   doi = {10.13140/RG.2.2.28587.04642},
