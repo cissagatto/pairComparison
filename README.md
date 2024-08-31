@@ -21,16 +21,11 @@ A paired comparison of methods in machine learning refers to a direct comparison
 
 Let’s formalize this concept mathematically:
 
-1. **Models and Datasets**:
-   - Consider $M$ models (or methods) $m_{1}, m_{2}, \dots, m_{M}$.
-   - These models are evaluated on $N$ datasets $D_{1}, D_{2}, \dots, D_{N}$.
-
-2. **Performance Metric**:
-   - Let $P_{i,j}$ denote the performance metric of model $m_{i}$ on dataset $D_j$. This metric could be accuracy, F1-score, or any other relevant measure.
-
-3. **Pairwise Comparison**:
-   - For each pair of models $m_{i}$ and $m_{k}$, you compare their performance on each dataset $D_{j}$. Specifically:
-     - Define a comparison indicator function $C_{i,k,j}$ as:
+- Consider $M$ models (or methods) $m_{1}, m_{2}, \dots, m_{M}$.
+- These models are evaluated on $N$ datasets $D_{1}, D_{2}, \dots, D_{N}$.
+- Let $P_{i,j}$ denote the performance metric of model $m_{i}$ on dataset $D_j$. This metric could be accuracy, F1-score, or any other relevant measure.
+- For each pair of models $m_{i}$ and $m_{k}$, you compare their performance on each dataset $D_{j}$. 
+- Define a comparison indicator function $C_{i,k,j}$ as:
 
 ```math
 C_{i,k,j}
