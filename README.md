@@ -19,48 +19,45 @@ A paired comparison of methods in machine learning refers to a direct comparison
 
 ### Simplified Formalization of Pairwise Model Comparison
 
-The goal of this approach is to generate a matrix \( M \times M \) where each element represents the total number of datasets in which a model \( m_i \) outperforms another model \( m_j \). If we have 10 models, the result will be a \( 10 \times 10 \) matrix, showing the pairwise comparisons between each model.
+The goal of this approach is to generate a matrix $M \times M$ where each element represents the total number of datasets in which a model $m_{i}$ outperforms another model $m_{j}. If we have 10 models, the result will be a $10 \times 10$ matrix, showing the pairwise comparisons between each model.
 
 #### 1. Metrics Where Higher Values are Better (Best Value = 1)
 For evaluation metrics where a higher value indicates better performance (e.g., accuracy, F1-score):
 
-- **Comparison Rule**: If the value of \( m_1 \) is greater than \( m_2 \) on a specific dataset, then count that dataset as a win for \( m_1 \) (assign a score of 1). Otherwise, assign a score of 0.
+- **Comparison Rule**: If the value of $m_{i}$ is greater than $m_{j}$ on a specific dataset, then count that dataset as a win for $m_{1}$ (assign a score of 1). Otherwise, assign a score of 0.
 
-Formally, for each pair \( (m_i, m_j) \) across all datasets \( D_1, D_2, \dots, D_N \):
+Formally, for each pair $m_{i}, m_{j} across all datasets $D_{1}, D_{2}, \dots, D_{N}$:
 
-\[
+```math
 C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} > P_{j,k})
-\]
+```
 
 Where \( \text{I} \) is the indicator function:
 
-\[
+```math
 \text{I}(P_{i,k} > P_{j,k}) =
 \begin{cases}
 1 & \text{if } P_{i,k} > P_{j,k} \\
 0 & \text{otherwise}
 \end{cases}
-\]
+```
 
-Here, \( C_{i,j} \) represents the total number of datasets where model \( m_i \) outperforms model \( m_j \).
+Here, $C_{i,j}$ represents the total number of datasets where model $m_{i}$ outperforms model $m_{j}$.
 
 #### 2. Metrics Where Lower Values are Better (Best Value = 0)
 For evaluation metrics where a lower value indicates better performance (e.g., error rate, Hamming loss):
 
-- **Comparison Rule**: If the value of \( m_1 \) is less than \( m_2 \) on a specific dataset, then count that dataset as a win for \( m_1 \) (assign a score of 1). Otherwise, assign a score of 0.
+- **Comparison Rule**: If the value of $m_{i}$ is less than $m_{j}$ on a specific dataset, then count that dataset as a win for $m_{i}$ (assign a score of 1). Otherwise, assign a score of 0.
 
-Formally, for each pair \( (m_i, m_j) \) across all datasets \( D_1, D_2, \dots, D_N \):
+Formally, for each pair $(m_{i},m_{j})$ across all datasets $D_{1}, D_{2}, \dots, D_{N}$:
 
-\[
+```math
 C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} < P_{j,k})
-\]
+```
 
 Where \( \text{I} \) is the indicator function:
 
 ```math
-C_{i,k,j}
-```
-
 \[
 \text{I}(P_{i,k} < P_{j,k}) =
 \begin{cases}
@@ -68,6 +65,7 @@ C_{i,k,j}
 0 & \text{otherwise}
 \end{cases}
 \]
+```
 
 Here, \( C_{i,j} \) represents the total number of datasets where model \( m_i \) outperforms model \( m_j \) based on the metric where lower is better.
 
