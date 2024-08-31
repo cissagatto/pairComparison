@@ -32,14 +32,16 @@ Let’s formalize this concept mathematically:
    - For each pair of models $m_{i}$ and $m_{k}$, you compare their performance on each dataset $D_{j}$. Specifically:
      - Define a comparison indicator function $C_{i,k,j}$ as:
 
-       $$C_{i,k,j}
+```math
+       C_{i,k,j}
       \left\{ 
       \begin{array}{cl}
       1 & \text{if } P_{i,j} > P_{k,j} \text{ (Model \( m_i \) outperforms Model \( m_k \) on \( D_j \))}\\
       0 & \text{if } P_{i,j} = P_{k,j} \text{ (Model \( m_i \) ties with Model \( m_k \) on \(D_j\)}\\
       -1 & \text{if } P_{i,j} < P_{k,j} \text{ (Model \( m_i \) underperforms compared to Model \( m_k \) on \( D_j \))}
       \end{array} 
-      \right$$
+      \right
+```
 
 4. **Summarizing Pairwise Performance**:
    - The total number of times model $m_{i}$ outperforms model $m_{k}$ across all datasets can be computed as:
@@ -48,7 +50,8 @@ Let’s formalize this concept mathematically:
      
    - Similarly, the number of ties and losses can be computed:
 
-     $$T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} = P_{k,j}),$$
+     $$T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} = P_{k,j})$$
+       
      $$L_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} < P_{k,j})$$
      
    where $W_{i,k}$ is the number of datasets where model $m_{i}$ outperforms model $m_{k}$, $T_{i,k}$ is the number of ties, and $L_{i,k}$ is the number of losses.
