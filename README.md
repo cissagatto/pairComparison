@@ -183,11 +183,11 @@ The `pair.comparison` function compares methods across a single CSV file by dete
 
 The function does not return any value. It writes multiple CSV files with the comparison results to the specified folder. The results are stored in the following files:
 
-- **`greater-or-equal-datasets.csv`**: Contains the number of datasets in which each method is greater than or equal to the other methods.
-- **`greater-datasets.csv`**: Contains the number of datasets in which each method is greater than the other methods.
-- **`less-or-equal-datasets.csv`**: Contains the number of datasets in which each method is less than or equal to the other methods.
-- **`less-datasets.csv`**: Contains the number of datasets in which each method is less than the other methods.
-- **`equal-datasets.csv`**: Contains the number of datasets in which each method is equal to the other methods.
+- **`greater-or-equal-datasets.csv`**: Contains the number of datasets in which each method's performance value is greater than or equal to the other method.
+- **`greater-datasets.csv`**: Contains the number of datasets in which each method's performance value is greater than the other method.
+- **`less-or-equal-datasets.csv`**: Contains the number of datasets in which each method's performance value is less or equal than the other method.
+- **`less-datasets.csv`**: Contains the number of datasets in which each method's performance value is less than the other method.
+- **`equal-datasets.csv`**: Contains the number of datasets in which each method's performance value is equal to the other method.
 
 
 
