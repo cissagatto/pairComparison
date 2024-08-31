@@ -34,18 +34,8 @@ Let’s formalize this concept mathematically:
 
 ```math
 C_{i,k,j}
-\left\{
-\begin{array}{cl}
-1 & \text{if } P_{i,j} > P_{k,j} \text{ (Model \( m_i \) outperforms Model \( m_k \) on \( D_j \))}\\
-0 & \text{if } P_{i,j} = P_{k,j} \text{ (Model \( m_i \) ties with Model \( m_k \) on \(D_j\)}\\
-\end{array}
-\} \right.
 ```
 
-4. **Summarizing Pairwise Performance**:
-   - The total number of times model $m_{i}$ outperforms model $m_{k}$ across all datasets can be computed as:
-     
-     $$T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} > P_{k,j})$$
 
 ### Example Matrix Interpretation
 
