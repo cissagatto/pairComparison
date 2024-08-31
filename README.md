@@ -48,9 +48,8 @@ Let’s formalize this concept mathematically:
      
    - Similarly, the number of ties and losses can be computed:
 
-     $$\[
-     T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} = P_{k,j}), \quad L_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} < P_{k,j})
-     \]$$
+     $$T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} = P_{k,j}),$$
+     $$L_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} < P_{k,j})$$
      
    where $W_{i,k}$ is the number of datasets where model $m_{i}$ outperforms model $m_{k}$, $T_{i,k}$ is the number of ties, and $L_{i,k}$ is the number of losses.
 
