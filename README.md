@@ -77,14 +77,8 @@ The code can also perform additional comparisons to calculate:
 These additional comparisons can be useful for other types of analysis, such as determining ties or dominance in a set of models.
 
 ### Final Matrix
-The final output is a comparison matrix $\mathbf{C}$ of size $M \times M$, where each entry $C_{i,j}$ contains the count of datasets in which model $m_{i}$ was better than model $m_{j}$ according to the specific metric being analyzed. 
+The final output is a comparison matrix $\mathbf{C}$ of size $M \times M$, where each entry $C_{i,j}$ contains the count of datasets in which model $m_{i}$ was better than model $m_{j}$ according to the specific metric being analyzed. This matrix serves as a comprehensive summary of the pairwise performance comparisons across all models and datasets, allowing for a detailed understanding of model performance in machine learning contexts.
 
-This matrix serves as a comprehensive summary of the pairwise performance comparisons across all models and datasets, allowing for a detailed understanding of model performance in machine learning contexts.
-
-
-### Example Matrix Interpretation
-
-Given the matrix you provided:
 
 |         | Model_1 | Model_2 | Model_3 | Model_4 |
 |---------|---------|---------|---------|---------|
