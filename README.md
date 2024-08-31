@@ -70,9 +70,9 @@ Here, $C_{i,j}$ represents the total number of datasets where model $m_{i}$ outp
 ### Additional Comparisons
 The code can also perform additional comparisons to calculate:
 
-1. **$m_{i} \geq m_{j}$**: The number of datasets where $m_{i}$ is either better than or equal to $m_{j}$.
-2. **$m_{i} \leq m_{j}$**: The number of datasets where $m_{i}$ is either worse than or equal to $m_{j}$.
-3. **$m_{i} = m_{j}$**: The number of datasets where $m_{i}$ and $m_{j}$ have exactly the same performance.
+1. **$m_{i} \geq m_{j}$**: The number of datasets where the performance value of $m_{i}$ is greater than or equal to $m_{j}$.
+2. **$m_{i} \leq m_{j}$**: The number of datasets where the performance value of $m_{i}$ is lesser than or equal to $m_{j}$.
+3. **$m_{i} = m_{j}$**: The number of datasets where the performance value of $m_{i}$ and $m_{j}$ is equal.
 
 These additional comparisons can be useful for other types of analysis, such as determining ties or dominance in a set of models.
 
