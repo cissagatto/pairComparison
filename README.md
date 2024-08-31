@@ -173,7 +173,7 @@ The `pair.comparison` function compares methods across a single CSV file by dete
 
 - **`FolderDestiny`**: A character string specifying the path to the folder where results will be saved. The function will create a subfolder here for each measure.
 
-- **`measure.name`**: A character string specifying the name of the measure being processed. This name will be used to organize the results.
+- **`measure.name`**: A character string specifying the name of the measure being processed. This name will be used to organize the results (see `pc.mesures()`).
 
 - **`names.methods`**: A character vector containing the names of the methods used as column names in the data. These names will be used for labeling the results.
 
