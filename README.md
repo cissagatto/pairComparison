@@ -1,8 +1,6 @@
-# Pairwise Comparison of Methods in Machine Learning Metrics
+### Paired Comparison of Methods in Machine Learning
 
-## Overview
-
-This repository contains R functions designed to compare methods across a CSV files that represents various metrics in machine learning evaluation. The function calculates how many datasets each method outperforms compared to other methods. Results are organized and saved as CSV files in a specified folder for easy interpretation and further analysis.
+A paired comparison of methods in machine learning refers to a direct comparison between two models or algorithms across multiple tasks or datasets. The goal is to determine which model performs better in a head-to-head comparison on a set of metrics, such as accuracy, precision, recall, or any other relevant performance measure. In this context, each dataset serves as a paired observation, where the performance of one model is directly compared to the performance of another. This method is particularly useful for understanding the relative strengths and weaknesses of different models in specific scenarios.
 
 
 ## How to cite
@@ -17,6 +15,66 @@ This repository contains R functions designed to compare methods across a CSV fi
   url = {https://github.com/cissagatto/pairComparison}
 }
 ```
+
+
+### Mathematical Contextualization
+
+Let’s formalize this concept mathematically:
+
+1. **Models and Datasets**:
+   - Consider $M$ models (or methods) $m_{1}, m_{2}, \dots, m_{M}$.
+   - These models are evaluated on $N$ datasets $D_{1}, D_{2}, \dots, D_{N}$.
+
+2. **Performance Metric**:
+   - Let $P_{i,j}$ denote the performance metric of model $m_{i}$ on dataset $D_j$. This metric could be accuracy, F1-score, or any other relevant measure.
+
+3. **Pairwise Comparison**:
+   - For each pair of models $m_{i}$ and $m_{k}$, you compare their performance on each dataset $D_{j}$. Specifically:
+     - Define a comparison indicator function $C_{i,k,j}$ as:
+       $\[
+       C_{i,k,j} =
+       \begin{cases}
+       1 & \text{if } P_{i,j} > P_{k,j} \text{ (Model m_{i} outperforms Model m_{k} on $D_{j}$)} \\
+       0 & \text{if } P_{i,j} = P_{k,j} \text{ (Model m_{i} ties with Model m_{k} on $D_{j}$)} \\
+       -1 & \text{if } P_{i,j} < P_{k,j} \text{ (Model m_{i} underperforms compared to Model m_{k} on $D_{j}$)}
+       \end{cases}
+       \]$
+
+4. **Summarizing Pairwise Performance**:
+   - The total number of times model $m_{i}$ outperforms model $m_{k}$ across all datasets can be computed as:
+     $\[
+     W_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} > P_{k,j})
+     \]
+   - Similarly, the number of ties and losses can be computed:
+     \[
+     T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} = P_{k,j}), \quad L_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} < P_{k,j})
+     \]$
+   where $W_{i,k}$ is the number of datasets where model $m_{i}$ outperforms model $m_{k}$, $T_{i,k}$ is the number of ties, and $L_{i,k}$ is the number of losses.
+
+### Example Matrix Interpretation
+
+Given the matrix you provided:
+
+|         | Model_1 | Model_2 | Model_3 | Model_4 |
+|---------|---------|---------|---------|---------|
+| **Model_1** |       14 |        9 |        5 |        6 |
+| **Model_2** |        7 |       14 |        2 |        4 |
+| **Model_3** |        9 |       12 |       14 |        9 |
+| **Model_4** |        8 |       10 |        5 |       14 |
+
+- **Interpretation**: 
+  - The value in the cell at row "Model_1" and column "Model_2" is **9**. This means that Model_1 outperforms Model_2 on **9 datasets**.
+  - Similarly, the value in the cell at row "Model_2" and column "Model_3" is **2**, indicating that Model_2 outperforms Model_3 on **2 datasets**.
+
+### Significance in Machine Learning
+
+In machine learning, paired comparisons help in:
+
+1. **Model Selection**: By comparing models pairwise across datasets, you can identify which model is generally better or more consistent.
+2. **Understanding Performance Variability**: Some models may perform exceptionally well on certain datasets but poorly on others. Paired comparisons allow for the identification of such patterns.
+3. **Statistical Testing**: Paired comparisons are also the basis for statistical tests, such as the Wilcoxon signed-rank test or the Friedman test, which help to determine if the observed differences in performance are statistically significant.
+
+In summary, paired comparisons provide a systematic way to evaluate and compare the performance of multiple models across different datasets, helping practitioners make informed decisions in model selection and evaluation.
 
 
 
