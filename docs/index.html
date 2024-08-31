@@ -22,7 +22,7 @@
 
 
     <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar- navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -43,7 +43,21 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-sun"></span>
+
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="dropdown-header">Light</li>
+    <li class="dropdown-header">Dark</li>
+    <li class="dropdown-header">Auto</li>
+  </ul>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -57,24 +71,142 @@
   <div class="contents col-md-9">
 
 <div class="section level1">
-<div class="page-header"><h1 id="pairwise-comparison-of-methods-in-machine-learning-metrics">Pairwise Comparison of Methods in Machine Learning Metrics<a class="anchor" aria-label="anchor" href="#pairwise-comparison-of-methods-in-machine-learning-metrics"></a>
+<div class="page-header"><h1 id="paired-comparison-of-methods-in-machine-learning">Paired Comparison of Methods in Machine Learning<a class="anchor" aria-label="anchor" href="#paired-comparison-of-methods-in-machine-learning"></a>
 </h1></div>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
-<p>This repository contains R functions designed to compare methods across a CSV files that represents various metrics in machine learning evaluation. The function calculates how many datasets each method outperforms compared to other methods. Results are organized and saved as CSV files in a specified folder for easy interpretation and further analysis.</p>
-</div>
+<p>A paired comparison of methods in machine learning refers to a direct comparison between two models or algorithms across multiple tasks or datasets. The goal is to determine which model performs better in a head-to-head comparison on a set of metrics, such as accuracy, precision, recall, or any other relevant performance measure. In this context, each dataset serves as a paired observation, where the performance of one model is directly compared to the performance of another. This method is particularly useful for understanding the relative strengths and weaknesses of different models in specific scenarios.</p>
 <div class="section level2">
 <h2 id="how-to-cite">How to cite<a class="anchor" aria-label="anchor" href="#how-to-cite"></a>
 </h2>
 <pre class="plaintext"><code>@misc{pairComparison2024,
   author = {Elaine Cecília Gatto},
-  title = {pairComparisonL: A package },
+  title = {pairComparison: A package to performing comparisons between pairs of methods. },
   year = {2024},
   note = {R package version 0.1.0. Licensed under CC BY-NC-SA 4.0},
-  doi = {},
-  url = {https://github.com/cissagatto/pairComparision}
+  doi = {10.13140/RG.2.2.28587.04642},
+  url = {https://github.com/cissagatto/pairComparison}
 }</code></pre>
+<div class="section level3">
+<h3 id="simplified-formalization-of-pairwise-model-comparison">Simplified Formalization of Pairwise Model Comparison<a class="anchor" aria-label="anchor" href="#simplified-formalization-of-pairwise-model-comparison"></a>
+</h3>
+<p>The goal of this approach is to generate a matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>×</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">M \times M</annotation></semantics></math> where each element represents the total number of datasets in which a model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> outperforms another model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math>. If we have 10 models, the result will be a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>×</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">10 \times 10</annotation></semantics></math> matrix, showing the pairwise comparisons between each model.</p>
+<div class="section level4">
+<h4 id="id_1-metrics-where-higher-values-are-better-best-value--1">1. Metrics Where Higher Values are Better (Best Value = 1)<a class="anchor" aria-label="anchor" href="#id_1-metrics-where-higher-values-are-better-best-value--1"></a>
+</h4>
+<p>For evaluation metrics where a higher value indicates better performance (e.g., accuracy, F1-score):</p>
+<ul>
+<li>
+<strong>Comparison Rule</strong>: If the value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> is greater than <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math> on a specific dataset, then count that dataset as a win for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> (assign a score of 1). Otherwise, assign a score of 0.</li>
+</ul>
+<p>Formally, for each pair <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mi>i</mi></msub><mo>,</mo><msub><mi>m</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m_{i}, m_{j})</annotation></semantics></math> across all datasets <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub><mo>,</mo><msub><mi>D</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>D</mi><mi>N</mi></msub></mrow><annotation encoding="application/x-tex">D_{1}, D_{2}, \dots, D_{N}</annotation></semantics></math>:</p>
+<pre class="math"><code>C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} &gt; P_{j,k})</code></pre>
+<p>Where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> is the indicator function:</p>
+<pre class="math"><code>\text{I}(P_{i,k} &gt; P_{j,k}) =
+\begin{cases}
+1 &amp; \text{if } P_{i,k} &gt; P_{j,k} \\
+0 &amp; \text{otherwise}
+\end{cases}</code></pre>
+<p>Here, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">C_{i,j}</annotation></semantics></math> represents the total number of datasets where model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> outperforms model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math>.</p>
+</div>
+<div class="section level4">
+<h4 id="id_2-metrics-where-lower-values-are-better-best-value--0">2. Metrics Where Lower Values are Better (Best Value = 0)<a class="anchor" aria-label="anchor" href="#id_2-metrics-where-lower-values-are-better-best-value--0"></a>
+</h4>
+<p>For evaluation metrics where a lower value indicates better performance (e.g., Hamming loss):</p>
+<ul>
+<li>
+<strong>Comparison Rule</strong>: If the value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> is less than <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math> on a specific dataset, then count that dataset as a win for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> (assign a score of 1). Otherwise, assign a score of 0.</li>
+</ul>
+<p>Formally, for each pair <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mi>i</mi></msub><mo>,</mo><msub><mi>m</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m_{i},m_{j})</annotation></semantics></math> across all datasets <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub><mo>,</mo><msub><mi>D</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>D</mi><mi>N</mi></msub></mrow><annotation encoding="application/x-tex">D_{1}, D_{2}, \dots, D_{N}</annotation></semantics></math>:</p>
+<pre class="math"><code>C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} &lt; P_{j,k})</code></pre>
+<p>Where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> is the indicator function:</p>
+<pre class="math"><code>\text{I}(P_{i,k} &lt; P_{j,k}) =
+\begin{cases}
+1 &amp; \text{if } P_{i,k} &lt; P_{j,k} \\
+0 &amp; \text{otherwise}
+\end{cases}</code></pre>
+<p>Here, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">C_{i,j}</annotation></semantics></math> represents the total number of datasets where model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> outperforms model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math> based on the metric where lower is better.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="additional-comparisons">Additional Comparisons<a class="anchor" aria-label="anchor" href="#additional-comparisons"></a>
+</h3>
+<p>The code can also perform additional comparisons to calculate:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>i</mi></msub><mo>≥</mo><msub><mi>m</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">m_{i} \geq m_{j}</annotation></semantics></math></strong>: The number of datasets where the performance value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> is greater than or equal to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math>.</li>
+<li>
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>i</mi></msub><mo>≤</mo><msub><mi>m</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">m_{i} \leq m_{j}</annotation></semantics></math></strong>: The number of datasets where the performance value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> is lesser than or equal to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math>.</li>
+<li>
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>i</mi></msub><mo>=</mo><msub><mi>m</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">m_{i} = m_{j}</annotation></semantics></math></strong>: The number of datasets where the performance value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math> is equal.</li>
+</ol>
+<p>These additional comparisons can be useful for other types of analysis, such as determining ties or dominance in a set of models.</p>
+</div>
+<div class="section level3">
+<h3 id="final-matrix">Final Matrix<a class="anchor" aria-label="anchor" href="#final-matrix"></a>
+</h3>
+<p>The final output is a comparison matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐂</mi><annotation encoding="application/x-tex">\mathbf{C}</annotation></semantics></math> of size <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>×</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">M \times M</annotation></semantics></math>, where each entry <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">C_{i,j}</annotation></semantics></math> contains the count of datasets in which model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_{i}</annotation></semantics></math> was better than model <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_{j}</annotation></semantics></math> according to the specific metric being analyzed. This matrix serves as a comprehensive summary of the pairwise performance comparisons across all models and datasets, allowing for a detailed understanding of model performance in machine learning contexts.</p>
+<table class="table">
+<thead><tr class="header">
+<th></th>
+<th>Model_1</th>
+<th>Model_2</th>
+<th>Model_3</th>
+<th>Model_4</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Model_1</strong></td>
+<td>14</td>
+<td>9</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td><strong>Model_2</strong></td>
+<td>7</td>
+<td>14</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td><strong>Model_3</strong></td>
+<td>9</td>
+<td>12</td>
+<td>14</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td><strong>Model_4</strong></td>
+<td>8</td>
+<td>10</td>
+<td>5</td>
+<td>14</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Interpretation</strong>:
+<ul>
+<li>The value in the cell at row “Model_1” and column “Model_2” is <strong>9</strong>. This means that Model_1 outperforms Model_2 on <strong>9 datasets</strong>.</li>
+<li>Similarly, the value in the cell at row “Model_2” and column “Model_3” is <strong>2</strong>, indicating that Model_2 outperforms Model_3 on <strong>2 datasets</strong>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="significance-in-machine-learning">Significance in Machine Learning<a class="anchor" aria-label="anchor" href="#significance-in-machine-learning"></a>
+</h3>
+<p>In machine learning, paired comparisons help in:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Model Selection</strong>: By comparing models pairwise across datasets, you can identify which model is generally better or more consistent.</li>
+<li>
+<strong>Understanding Performance Variability</strong>: Some models may perform exceptionally well on certain datasets but poorly on others. Paired comparisons allow for the identification of such patterns.</li>
+<li>
+<strong>Statistical Testing</strong>: Paired comparisons are also the basis for statistical tests, such as the Wilcoxon signed-rank test or the Friedman test, which help to determine if the observed differences in performance are statistically significant.</li>
+</ol>
+<p>In summary, paired comparisons provide a systematic way to evaluate and compare the performance of multiple models across different datasets, helping practitioners make informed decisions in model selection and evaluation.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="how-to-use-the-code">How to Use the Code<a class="anchor" aria-label="anchor" href="#how-to-use-the-code"></a>
@@ -82,9 +214,12 @@
 <div class="section level3">
 <h3 id="id_1-package">1. Package<a class="anchor" aria-label="anchor" href="#id_1-package"></a>
 </h3>
-<p>First, install and call the package</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pairComparision</span><span class="op">)</span></span></code></pre></div>
+<p>First, install the package via github</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/cissagatto/pairComparison"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pairComparison</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="id_2-computing">2. Computing<a class="anchor" aria-label="anchor" href="#id_2-computing"></a>
@@ -92,19 +227,18 @@
 <div class="section level4">
 <h4 id="a-for-one-single-csv-file">A. For one single csv file<a class="anchor" aria-label="anchor" href="#a-for-one-single-csv-file"></a>
 </h4>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">names.methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Model_1"</span>, <span class="st">"Model_2"</span>, <span class="st">"Model_3"</span>, <span class="st">"Model_4"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="st">"C:/Users/Cissa/Documents/pairComparison/data/accuracy.csv"</span></span>
+<span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="st">"~/pairComparison/data/accuracy.csv"</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">=</span> <span class="fu"><a href="reference/pair.comparison.html">pair.comparison</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">filename</span>, </span>
 <span>                FolderOrigin <span class="op">=</span> <span class="va">FolderData</span>,</span>
 <span>                FolderDestiny <span class="op">=</span> <span class="va">FolderResults</span>, </span>
 <span>                measure.name <span class="op">=</span> <span class="st">"accuracy"</span>,</span>
-<span>                names.methods <span class="op">=</span> <span class="va">names.methods</span><span class="op">)</span> </span>
-<span>                </span>
-<span><span class="co"># Acessando os resultados para uma medida específica</span></span>
+<span>                names.methods <span class="op">=</span> <span class="va">names.methods</span><span class="op">)</span>                </span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">Accuracy</span><span class="op">$</span><span class="va">greater_or_equal</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">Accuracy</span><span class="op">$</span><span class="va">greater</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">Accuracy</span><span class="op">$</span><span class="va">less_or_equal</span><span class="op">)</span></span>
@@ -114,7 +248,7 @@
 <div class="section level4">
 <h4 id="b-for-more-than-one-single-csv-file">B. For more than one single csv file<a class="anchor" aria-label="anchor" href="#b-for-more-than-one-single-csv-file"></a>
 </h4>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Set working directory to the folder containing the CSV files</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">FolderData</span><span class="op">)</span></span>
@@ -142,8 +276,7 @@
 <span>                             FolderDestiny <span class="op">=</span> <span class="va">FolderResults</span>,</span>
 <span>                             names.methods <span class="op">=</span> <span class="va">names.methods</span>, </span>
 <span>                             names.measures <span class="op">=</span> <span class="va">measure_names</span><span class="op">)</span></span>
-<span>                             </span>
-<span><span class="co"># Acessando os resultados</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">greater_or_equal</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">greater</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">less_or_equal</span><span class="op">)</span></span>
@@ -155,11 +288,11 @@
 <h4 id="example-output">Example Output<a class="anchor" aria-label="anchor" href="#example-output"></a>
 </h4>
 <p>For a given CSV file, the result might look like this:</p>
-<pre class="csv"><code>"","Model_1","Model_2","Model_3","Model_4"
-"Model_1",14,9,5,6
-"Model_2",7,14,2,4
-"Model_3",9,12,14,9
-"Model_4",8,10,5,14</code></pre>
+<pre class="csv"><code>,Model_1,Model_2,Model_3,Model_4
+Model_1,14,9,5,6
+Model_2,7,14,2,4
+Model_3,9,12,14,9
+Model_4,8,10,5,14</code></pre>
 <p>In this matrix: - The cell at row <code>Model_1</code> and column <code>Model_2</code> shows <code>9</code>, meaning <code>Model_1</code> outperforms <code>Model_2</code> in 9 datasets.</p>
 </div>
 </div>
@@ -179,7 +312,7 @@
 <li><p><strong><code>filename</code></strong>: A character string specifying the full path of the CSV file to be processed. The CSV should have a structure where each row represents a dataset and each column (except the first) represents a method’s performance in that dataset.</p></li>
 <li><p><strong><code>FolderOrigin</code></strong>: A character string specifying the path to the folder where the CSV file is located. This parameter is currently unused but can be included for compatibility with other functions.</p></li>
 <li><p><strong><code>FolderDestiny</code></strong>: A character string specifying the path to the folder where results will be saved. The function will create a subfolder here for each measure.</p></li>
-<li><p><strong><code>measure.name</code></strong>: A character string specifying the name of the measure being processed. This name will be used to organize the results.</p></li>
+<li><p><strong><code>measure.name</code></strong>: A character string specifying the name of the measure being processed. This name will be used to organize the results (see <code>pc.mesures()</code>).</p></li>
 <li><p><strong><code>names.methods</code></strong>: A character vector containing the names of the methods used as column names in the data. These names will be used for labeling the results.</p></li>
 </ul>
 </div>
@@ -189,17 +322,30 @@
 <p>The function does not return any value. It writes multiple CSV files with the comparison results to the specified folder. The results are stored in the following files:</p>
 <ul>
 <li>
-<strong><code>greater-or-equal-datasets.csv</code></strong>: Contains the number of datasets in which each method is greater than or equal to the other methods.</li>
+<strong><code>greater-or-equal-datasets.csv</code></strong>: Contains the number of datasets in which each method’s performance value is greater than or equal to the other method.</li>
 <li>
-<strong><code>greater-datasets.csv</code></strong>: Contains the number of datasets in which each method is greater than the other methods.</li>
+<strong><code>greater-datasets.csv</code></strong>: Contains the number of datasets in which each method’s performance value is greater than the other method.</li>
 <li>
-<strong><code>less-or-equal-datasets.csv</code></strong>: Contains the number of datasets in which each method is less than or equal to the other methods.</li>
+<strong><code>less-or-equal-datasets.csv</code></strong>: Contains the number of datasets in which each method’s performance value is less or equal than the other method.</li>
 <li>
-<strong><code>less-datasets.csv</code></strong>: Contains the number of datasets in which each method is less than the other methods.</li>
+<strong><code>less-datasets.csv</code></strong>: Contains the number of datasets in which each method’s performance value is less than the other method.</li>
 <li>
-<strong><code>equal-datasets.csv</code></strong>: Contains the number of datasets in which each method is equal to the other methods.</li>
+<strong><code>equal-datasets.csv</code></strong>: Contains the number of datasets in which each method’s performance value is equal to the other method.</li>
 </ul>
 </div>
+</div>
+<div class="section level3">
+<h3 id="folder-structure">Folder Structure<a class="anchor" aria-label="anchor" href="#folder-structure"></a>
+</h3>
+<p>Ensure the following folder structure is set up:</p>
+<ul>
+<li>
+<code>FolderRoot</code>: Root directory of the project.</li>
+<li>
+<code>FolderData</code>: Directory where CSV data files are stored.</li>
+<li>
+<code>FolderResults</code>: Directory where results and plots are saved.</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
