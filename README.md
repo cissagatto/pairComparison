@@ -17,19 +17,73 @@ A paired comparison of methods in machine learning refers to a direct comparison
 ```
 
 
-### Mathematical Contextualization
+### Simplified Formalization of Pairwise Model Comparison
 
-Let’s formalize this concept mathematically:
+The goal of this approach is to generate a matrix \( M \times M \) where each element represents the total number of datasets in which a model \( m_i \) outperforms another model \( m_j \). If we have 10 models, the result will be a \( 10 \times 10 \) matrix, showing the pairwise comparisons between each model.
 
-- Consider $M$ models (or methods) $m_{1}, m_{2}, \dots, m_{M}$.
-- These models are evaluated on $N$ datasets $D_{1}, D_{2}, \dots, D_{N}$.
-- Let $P_{i,j}$ denote the performance metric of model $m_{i}$ on dataset $D_j$. This metric could be accuracy, F1-score, or any other relevant measure.
-- For each pair of models $m_{i}$ and $m_{k}$, you compare their performance on each dataset $D_{j}$. 
-- Define a comparison indicator function $C_{i,k,j}$ as:
+#### 1. Metrics Where Higher Values are Better (Best Value = 1)
+For evaluation metrics where a higher value indicates better performance (e.g., accuracy, F1-score):
+
+- **Comparison Rule**: If the value of \( m_1 \) is greater than \( m_2 \) on a specific dataset, then count that dataset as a win for \( m_1 \) (assign a score of 1). Otherwise, assign a score of 0.
+
+Formally, for each pair \( (m_i, m_j) \) across all datasets \( D_1, D_2, \dots, D_N \):
+
+\[
+C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} > P_{j,k})
+\]
+
+Where \( \text{I} \) is the indicator function:
+
+\[
+\text{I}(P_{i,k} > P_{j,k}) =
+\begin{cases}
+1 & \text{if } P_{i,k} > P_{j,k} \\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+Here, \( C_{i,j} \) represents the total number of datasets where model \( m_i \) outperforms model \( m_j \).
+
+#### 2. Metrics Where Lower Values are Better (Best Value = 0)
+For evaluation metrics where a lower value indicates better performance (e.g., error rate, Hamming loss):
+
+- **Comparison Rule**: If the value of \( m_1 \) is less than \( m_2 \) on a specific dataset, then count that dataset as a win for \( m_1 \) (assign a score of 1). Otherwise, assign a score of 0.
+
+Formally, for each pair \( (m_i, m_j) \) across all datasets \( D_1, D_2, \dots, D_N \):
+
+\[
+C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} < P_{j,k})
+\]
+
+Where \( \text{I} \) is the indicator function:
 
 ```math
 C_{i,k,j}
 ```
+
+\[
+\text{I}(P_{i,k} < P_{j,k}) =
+\begin{cases}
+1 & \text{if } P_{i,k} < P_{j,k} \\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+Here, \( C_{i,j} \) represents the total number of datasets where model \( m_i \) outperforms model \( m_j \) based on the metric where lower is better.
+
+### Additional Comparisons
+The code can also perform additional comparisons to calculate:
+
+1. **\( m_1 \geq m_2 \)**: The number of datasets where \( m_1 \) is either better than or equal to \( m_2 \).
+2. **\( m_1 \leq m_2 \)**: The number of datasets where \( m_1 \) is either worse than or equal to \( m_2 \).
+3. **\( m_1 = m_2 \)**: The number of datasets where \( m_1 \) and \( m_2 \) have exactly the same performance.
+
+These additional comparisons can be useful for other types of analysis, such as determining ties or dominance in a set of models.
+
+### Final Matrix
+The final output is a comparison matrix \( \mathbf{C} \) of size \( M \times M \), where each entry \( C_{i,j} \) contains the count of datasets in which model \( m_i \) was better than (or equal to) model \( m_j \) according to the specific metric being analyzed. 
+
+This matrix serves as a comprehensive summary of the pairwise performance comparisons across all models and datasets, allowing for a detailed understanding of model performance in machine learning contexts.
 
 
 ### Example Matrix Interpretation
