@@ -24,7 +24,7 @@ The goal of this approach is to generate a matrix $M \times M$ where each elemen
 #### 1. Metrics Where Higher Values are Better (Best Value = 1)
 For evaluation metrics where a higher value indicates better performance (e.g., accuracy, F1-score):
 
-- **Comparison Rule**: If the value of $m_{i}$ is greater than $m_{j}$ on a specific dataset, then count that dataset as a win for $m_{1}$ (assign a score of 1). Otherwise, assign a score of 0.
+- **Comparison Rule**: If the value of $m_{i}$ is greater than $m_{j}$ on a specific dataset, then count that dataset as a win for $m_{i}$ (assign a score of 1). Otherwise, assign a score of 0.
 
 Formally, for each pair $(m_{i}, m_{j})$ across all datasets $D_{1}, D_{2}, \dots, D_{N}$:
 
@@ -45,7 +45,7 @@ Where $I$ is the indicator function:
 Here, $C_{i,j}$ represents the total number of datasets where model $m_{i}$ outperforms model $m_{j}$.
 
 #### 2. Metrics Where Lower Values are Better (Best Value = 0)
-For evaluation metrics where a lower value indicates better performance (e.g., error rate, Hamming loss):
+For evaluation metrics where a lower value indicates better performance (e.g., Hamming loss):
 
 - **Comparison Rule**: If the value of $m_{i}$ is less than $m_{j}$ on a specific dataset, then count that dataset as a win for $m_{i}$ (assign a score of 1). Otherwise, assign a score of 0.
 
