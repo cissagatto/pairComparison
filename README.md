@@ -38,22 +38,14 @@ C_{i,k,j}
 \begin{array}{cl}
 1 & \text{if } P_{i,j} > P_{k,j} \text{ (Model \( m_i \) outperforms Model \( m_k \) on \( D_j \))}\\
 0 & \text{if } P_{i,j} = P_{k,j} \text{ (Model \( m_i \) ties with Model \( m_k \) on \(D_j\)}\\
--1 & \text{if } P_{i,j} < P_{k,j} \text{ (Model \( m_i \) underperforms compared to Model \( m_k \) on \( D_j \))} \end{array}
+\end{array}
 \} \right.
 ```
 
 4. **Summarizing Pairwise Performance**:
    - The total number of times model $m_{i}$ outperforms model $m_{k}$ across all datasets can be computed as:
      
-     $$W_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} > P_{k,j})$$
-     
-   - Similarly, the number of ties and losses can be computed:
-
-     $$T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} = P_{k,j})$$
-       
-     $$L_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} < P_{k,j})$$
-     
-   where $W_{i,k}$ is the number of datasets where model $m_{i}$ outperforms model $m_{k}$, $T_{i,k}$ is the number of ties, and $L_{i,k}$ is the number of losses.
+     $$T_{i,k} = \sum_{j=1}^{N} \text{I}(P_{i,j} > P_{k,j})$$
 
 ### Example Matrix Interpretation
 
