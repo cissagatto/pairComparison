@@ -55,16 +55,14 @@ Formally, for each pair $(m_{i},m_{j})$ across all datasets $D_{1}, D_{2}, \dots
 C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} < P_{j,k})
 ```
 
-Where \( \text{I} \) is the indicator function:
+Where $I$ is the indicator function:
 
 ```math
-\[
 \text{I}(P_{i,k} < P_{j,k}) =
 \begin{cases}
 1 & \text{if } P_{i,k} < P_{j,k} \\
 0 & \text{otherwise}
 \end{cases}
-\]
 ```
 
 Here, $C_{i,j}$ represents the total number of datasets where model $m_{i}$ outperforms model $m_{j}$ based on the metric where lower is better.
@@ -73,13 +71,13 @@ Here, $C_{i,j}$ represents the total number of datasets where model $m_{i}$ outp
 The code can also perform additional comparisons to calculate:
 
 1. **$m_{i} \geq m_{j}$**: The number of datasets where $m_{i}$ is either better than or equal to $m_{j}$.
-2. **$m_{i} \leq m_{j}**: The number of datasets where $m_{i}$ is either worse than or equal to $m_{j}$..
-3. **$m_{i} = m_{j}**: The number of datasets where $m_{i}$ and $m_{j}$ have exactly the same performance.
+2. **$m_{i} \leq m_{j}$**: The number of datasets where $m_{i}$ is either worse than or equal to $m_{j}$.
+3. **$m_{i} = m_{j}$**: The number of datasets where $m_{i}$ and $m_{j}$ have exactly the same performance.
 
 These additional comparisons can be useful for other types of analysis, such as determining ties or dominance in a set of models.
 
 ### Final Matrix
-The final output is a comparison matrix \( \mathbf{C} \) of size \( M \times M \), where each entry \( C_{i,j} \) contains the count of datasets in which model \( m_i \) was better than (or equal to) model \( m_j \) according to the specific metric being analyzed. 
+The final output is a comparison matrix $\mathbf{C}$ of size $M \times M$, where each entry $C_{i,j}$ contains the count of datasets in which model $m_{i}$ was better than model $m_{j}$ according to the specific metric being analyzed. 
 
 This matrix serves as a comprehensive summary of the pairwise performance comparisons across all models and datasets, allowing for a detailed understanding of model performance in machine learning contexts.
 
