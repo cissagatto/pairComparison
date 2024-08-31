@@ -101,8 +101,6 @@ In machine learning, paired comparisons help in:
 
 In summary, paired comparisons provide a systematic way to evaluate and compare the performance of multiple models across different datasets, helping practitioners make informed decisions in model selection and evaluation.
 
-
-
 ## How to Use the Code
 
 ### 1. Package
@@ -192,11 +190,11 @@ print(results$equal)
 For a given CSV file, the result might look like this:
 
 ```csv
-"","Model_1","Model_2","Model_3","Model_4"
-"Model_1",14,9,5,6
-"Model_2",7,14,2,4
-"Model_3",9,12,14,9
-"Model_4",8,10,5,14
+,Model_1,Model_2,Model_3,Model_4
+Model_1,14,9,5,6
+Model_2,7,14,2,4
+Model_3,9,12,14,9
+Model_4,8,10,5,14
 ```
 
 In this matrix:
@@ -233,6 +231,14 @@ The function does not return any value. It writes multiple CSV files with the co
 - **`less-datasets.csv`**: Contains the number of datasets in which each method's performance value is less than the other method.
 - **`equal-datasets.csv`**: Contains the number of datasets in which each method's performance value is equal to the other method.
 
+
+### Folder Structure
+
+Ensure the following folder structure is set up:
+
+- `FolderRoot`: Root directory of the project.
+- `FolderData`: Directory where CSV data files are stored.
+- `FolderResults`: Directory where results and plots are saved.
 
 
 ### Documentation
