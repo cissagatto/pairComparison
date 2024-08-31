@@ -19,20 +19,20 @@ A paired comparison of methods in machine learning refers to a direct comparison
 
 ### Simplified Formalization of Pairwise Model Comparison
 
-The goal of this approach is to generate a matrix $M \times M$ where each element represents the total number of datasets in which a model $m_{i}$ outperforms another model $m_{j}. If we have 10 models, the result will be a $10 \times 10$ matrix, showing the pairwise comparisons between each model.
+The goal of this approach is to generate a matrix $M \times M$ where each element represents the total number of datasets in which a model $m_{i}$ outperforms another model $m_{j}$. If we have 10 models, the result will be a $10 \times 10$ matrix, showing the pairwise comparisons between each model.
 
 #### 1. Metrics Where Higher Values are Better (Best Value = 1)
 For evaluation metrics where a higher value indicates better performance (e.g., accuracy, F1-score):
 
 - **Comparison Rule**: If the value of $m_{i}$ is greater than $m_{j}$ on a specific dataset, then count that dataset as a win for $m_{1}$ (assign a score of 1). Otherwise, assign a score of 0.
 
-Formally, for each pair $m_{i}, m_{j} across all datasets $D_{1}, D_{2}, \dots, D_{N}$:
+Formally, for each pair $(m_{i}, m_{j})$ across all datasets $D_{1}, D_{2}, \dots, D_{N}$:
 
 ```math
 C_{i,j} = \sum_{k=1}^{N} \text{I}(P_{i,k} > P_{j,k})
 ```
 
-Where \( \text{I} \) is the indicator function:
+Where $I$ is the indicator function:
 
 ```math
 \text{I}(P_{i,k} > P_{j,k}) =
@@ -67,14 +67,14 @@ Where \( \text{I} \) is the indicator function:
 \]
 ```
 
-Here, \( C_{i,j} \) represents the total number of datasets where model \( m_i \) outperforms model \( m_j \) based on the metric where lower is better.
+Here, $C_{i,j}$ represents the total number of datasets where model $m_{i}$ outperforms model $m_{j}$ based on the metric where lower is better.
 
 ### Additional Comparisons
 The code can also perform additional comparisons to calculate:
 
-1. **\( m_1 \geq m_2 \)**: The number of datasets where \( m_1 \) is either better than or equal to \( m_2 \).
-2. **\( m_1 \leq m_2 \)**: The number of datasets where \( m_1 \) is either worse than or equal to \( m_2 \).
-3. **\( m_1 = m_2 \)**: The number of datasets where \( m_1 \) and \( m_2 \) have exactly the same performance.
+1. **$m_{i} \geq m_{j}$**: The number of datasets where $m_{i}$ is either better than or equal to $m_{j}$.
+2. **$m_{i} \leq m_{j}**: The number of datasets where $m_{i}$ is either worse than or equal to $m_{j}$..
+3. **$m_{i} = m_{j}**: The number of datasets where $m_{i}$ and $m_{j}$ have exactly the same performance.
 
 These additional comparisons can be useful for other types of analysis, such as determining ties or dominance in a set of models.
 
