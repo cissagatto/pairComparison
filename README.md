@@ -1,4 +1,4 @@
-### Paired Comparison of Methods in Machine Learning
+# Paired Comparison of Methods in Machine Learning
 
 A paired comparison of methods in machine learning refers to a direct comparison between two models or algorithms across multiple tasks or datasets. The goal is to determine which model performs better in a head-to-head comparison on a set of metrics, such as accuracy, precision, recall, or any other relevant performance measure. In this context, each dataset serves as a paired observation, where the performance of one model is directly compared to the performance of another. This method is particularly useful for understanding the relative strengths and weaknesses of different models in specific scenarios.
 
