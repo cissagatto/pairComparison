@@ -1369,20 +1369,20 @@ pair.comparison.all.measures <- function(names.csvs,
     }
   }
   
-  finalize_results(big.per.col, "average-big-per-col.csv")
-  finalize_results(bigE.per.col, "average-big-equal-per-col.csv")
-  
-  finalize_results(big.per.row, "average-big-per-row.csv")
-  finalize_results(bigE.per.row, "average-big-equal-per-row.csv")
-  
-  finalize_results(les.per.col, "average-less-per-col.csv")
-  finalize_results(lesE.per.col, "average-less-equal-per-col.csv")
-  
-  finalize_results(les.per.row, "average-less-per-row.csv")
-  finalize_results(lesE.per.row, "average-less-equal-per-row.csv")
-  
-  finalize_results(eq.per.col, "average-equal-per-col.csv")
-  finalize_results(eq.per.row, "average-equal-per-row.csv")
+  # finalize_results(big.per.col, "average-big-per-col.csv")
+  # finalize_results(bigE.per.col, "average-big-equal-per-col.csv")
+  # 
+  # finalize_results(big.per.row, "average-big-per-row.csv")
+  # finalize_results(bigE.per.row, "average-big-equal-per-row.csv")
+  # 
+  # finalize_results(les.per.col, "average-less-per-col.csv")
+  # finalize_results(lesE.per.col, "average-less-equal-per-col.csv")
+  # 
+  # finalize_results(les.per.row, "average-less-per-row.csv")
+  # finalize_results(lesE.per.row, "average-less-equal-per-row.csv")
+  # 
+  # finalize_results(eq.per.col, "average-equal-per-col.csv")
+  # finalize_results(eq.per.row, "average-equal-per-row.csv")
   
   # Return the aggregated results
   return(all_results)
@@ -1392,15 +1392,16 @@ pair.comparison.all.measures <- function(names.csvs,
 
 #' Plot Heatmap from Comparison Results
 #'
-#' This function creates a heatmap from a dataframe where the values represent 
-#' the number of datasets where methods were compared. It uses ggplot2 for visualization.
+#' This function generates a heatmap from a dataframe where the values indicate 
+#' the number of datasets in which methods were compared. It utilizes ggplot2 for visualization.
 #'
 #' @param comparison_df A data frame containing the comparison results. The data frame should
-#' be in a format where the rows and columns are methods and the values represent the number of datasets
-#' where one method was compared to another.
+#' be structured such that both rows and columns represent methods, with the values indicating 
+#' the number of datasets in which one method was compared to another.
 #' @param title A character string specifying the title of the heatmap.
+#' @param desired_order A character vector specifying the desired order of methods for plotting.
 #'
-#' @return A ggplot object of the heatmap.
+#' @return A ggplot object representing the heatmap.
 #'
 #' @examples
 #' # Example data frame (replace with your actual data)
@@ -1413,33 +1414,87 @@ pair.comparison.all.measures <- function(names.csvs,
 #' )
 #'
 #' # Plot heatmap
-#' pc.plot.heatmap(comparison_df, title = "Comparison Heatmap")
+#' pc.plot.heatmap(comparison_df, title = "Comparison Heatmap", desired_order = c("Model_1", "Model_2", "Model_3", "Model_4"))
 #'
 #' @export
-pc.plot.heatmap <- function(comparison_df, title = "Heatmap") {
+pc.plot.heatmap <- function(comparison_df, 
+                            title = "Heatmap",
+                            desired_order) {
   
   library(ggplot2)
   library(tidyr)
   
   # Ensure the dataframe is in the correct format
-  comparison_df$Method1 <- rownames(comparison_df)
   comparison_df <- pivot_longer(comparison_df, 
                                 cols = -Method1, 
                                 names_to = "Method2", 
                                 values_to = "Count")
   
+  # Set the desired order of methods as factors
+  comparison_df$Method1 <- factor(comparison_df$Method1, levels = desired_order)
+  comparison_df$Method2 <- factor(comparison_df$Method2, levels = desired_order)
+  
   # Create the heatmap
   heatmap_plot <- ggplot(comparison_df, aes(x = Method1, y = Method2, fill = Count)) +
     geom_tile() +
     scale_fill_gradient(low = "white", high = "purple") +
-    geom_text(aes(label = Count), color = "black", size = 4) + # Add numbers to each cell
+    geom_text(aes(label = Count), color = "black", size = 2) + 
+    # Add numbers to each cell
     theme_minimal() +
-    labs(title = title, x = "Method", y = "Method", fill = "Count") +
+    labs(title = title, x = "Method 1", y = "Method 2", fill = "Count") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   
   # Return the heatmap plot object
   heatmap_plot
 }
+
+
+
+#' Save a Heatmap Plot as a PDF File
+#'
+#' This function saves a given heatmap plot as a PDF file in the specified directory.
+#'
+#' @param heatmap_plot A ggplot2 object representing the heatmap plot to be saved.
+#' @param file_path A character string specifying the directory where the PDF file will be saved.
+#' @param file_name A character string specifying the name of the PDF file (without the extension).
+#' @param width A numeric value specifying the width of the PDF file in inches (default is 10).
+#' @param height A numeric value specifying the height of the PDF file in inches (default is 6).
+#'
+#' @return NULL. This function is called for its side effect of saving a PDF file.
+#'
+#' @examples
+#' \dontrun{
+#' # Example of saving a heatmap plot
+#' heatmap_plot <- pc.plot.heatmap(comparison_df, title = "My Heatmap", order = desired_order)
+#' save.heatmap.as.pdf(heatmap_plot, 
+#'                     file_path = "C:/Users/Cissa/Documents/pairComparison/heatmaps", 
+#'                     file_name = "heatmap_comparison")
+#' }
+#'
+#' @export
+save.heatmap.as.pdf <- function(heatmap_plot, 
+                                file_path, 
+                                file_name, 
+                                width = width, 
+                                height = height) {
+  
+  # Check if the directory exists; if not, create the directory
+  dir.create(dirname(file_path), showWarnings = FALSE, recursive = TRUE)
+  
+  # Create the PDF file
+  pdf(file = file.path(file_path, paste0(file_name, ".pdf")), 
+      width = width, height = height)
+  
+  # Draw the plot
+  print(heatmap_plot)
+  
+  # Close the graphic device
+  dev.off()
+  
+  message("\n\nHeatmap saved as PDF at: ", 
+          file.path(file_path, paste0(file_name, ".pdf")))
+}
+
 
 
 

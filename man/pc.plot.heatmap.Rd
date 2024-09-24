@@ -4,21 +4,23 @@
 \alias{pc.plot.heatmap}
 \title{Plot Heatmap from Comparison Results}
 \usage{
-pc.plot.heatmap(comparison_df, title = "Heatmap")
+pc.plot.heatmap(comparison_df, title = "Heatmap", desired_order)
 }
 \arguments{
 \item{comparison_df}{A data frame containing the comparison results. The data frame should
-be in a format where the rows and columns are methods and the values represent the number of datasets
-where one method was compared to another.}
+be structured such that both rows and columns represent methods, with the values indicating 
+the number of datasets in which one method was compared to another.}
 
 \item{title}{A character string specifying the title of the heatmap.}
+
+\item{desired_order}{A character vector specifying the desired order of methods for plotting.}
 }
 \value{
-A ggplot object of the heatmap.
+A ggplot object representing the heatmap.
 }
 \description{
-This function creates a heatmap from a dataframe where the values represent 
-the number of datasets where methods were compared. It uses ggplot2 for visualization.
+This function generates a heatmap from a dataframe where the values indicate 
+the number of datasets in which methods were compared. It utilizes ggplot2 for visualization.
 }
 \examples{
 # Example data frame (replace with your actual data)
@@ -31,6 +33,6 @@ comparison_df <- data.frame(
 )
 
 # Plot heatmap
-pc.plot.heatmap(comparison_df, title = "Comparison Heatmap")
+pc.plot.heatmap(comparison_df, title = "Comparison Heatmap", desired_order = c("Model_1", "Model_2", "Model_3", "Model_4"))
 
 }
