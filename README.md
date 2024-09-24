@@ -183,6 +183,62 @@ print(results$equal)
                              
 ```
 
+#### C. PLOTING HEATMAP FOR MANY CSV FILES
+
+```
+##############################################################################
+# Set the base path
+base_path <- "C:/Users/Cissa/Documents/pairComparison/results"
+setwd(base_path)
+
+# Get directory names and paths
+directories <- list.dirs(full.names = TRUE, recursive = FALSE)
+directory_names <- basename(directories)
+
+# Get measurement types
+measurements <- pc.measures()
+
+# Define the desired order of methods
+desired_order <- c("Lo", "G", "H.Ra", "NH.Ra", "H.J.K1", "H.Ro.K1", 
+                   "H.J.K2", "H.Ro.K2", "H.J.K3", "H.Ro.K3", 
+                   "H.J.T0", "H.Ro.T0", "H.J.T1", "H.Ro.T1", 
+                   "NH.J.K1", "NH.Ro.K1", "NH.J.K2", "NH.Ro.K2", 
+                   "NH.J.K3", "NH.Ro.K3", "NH.J.T0", "NH.Ro.T0", 
+                   "NH.J.T1", "NH.Ro.T1")
+
+# Function to process each directory
+process_directory <- function(index) {
+  # Get current directory path and corresponding measurement
+  current_path <- directories[index]
+  measurement_name <- directory_names[index]
+  
+  # Load the measurement type for the current directory
+  measurement_type <- filter(measurements, names == measurement_name)$type
+  suffix <- ifelse(measurement_type == 1, "greater", "less")
+  
+  # Build file names and paths
+  file_name <- paste(measurement_name, "-", suffix, "-datasets.csv", sep = "")
+  file_path <- file.path(current_path, file_name)
+  
+  # Read data
+  data <- read.csv(file_path)
+  names(data)[1] <- "Method1"  # Rename the first column
+  
+  # Generate the heatmap
+  heatmap_plot <- pc.plot.heatmap(data, title = "Comparison Heatmap", desired_order)
+  
+  # Save the heatmap as a PDF
+  output_folder <- file.path("C:/Users/Cissa/Documents/pairComparison/results", measurement_name)
+  dir.create(output_folder, showWarnings = FALSE, recursive = TRUE)  # Create directory if it doesn't exist
+  save.heatmap.as.pdf(heatmap_plot, file_path = output_folder, file_name = paste(measurement_name, "-", suffix, sep = ""), width = 10, height = 6)
+  
+  gc()  # Call garbage collection to free memory
+}
+
+# Process each directory
+lapply(seq_along(directories), process_directory)
+
+```
 
 
 #### Example Output
