@@ -185,10 +185,9 @@ print(results$equal)
 
 #### C. PLOTING HEATMAP FOR MANY CSV FILES
 
-```
-##############################################################################
+```r
 # Set the base path
-base_path <- "C:/Users/Cissa/Documents/pairComparison/results"
+base_path <- "~/pairComparison/results"
 setwd(base_path)
 
 # Get directory names and paths
@@ -228,9 +227,12 @@ process_directory <- function(index) {
   heatmap_plot <- pc.plot.heatmap(data, title = "Comparison Heatmap", desired_order)
   
   # Save the heatmap as a PDF
-  output_folder <- file.path("C:/Users/Cissa/Documents/pairComparison/results", measurement_name)
+  output_folder <- file.path("~/pairComparison/results", measurement_name)
   dir.create(output_folder, showWarnings = FALSE, recursive = TRUE)  # Create directory if it doesn't exist
-  save.heatmap.as.pdf(heatmap_plot, file_path = output_folder, file_name = paste(measurement_name, "-", suffix, sep = ""), width = 10, height = 6)
+  save.heatmap.as.pdf(heatmap_plot,
+                      file_path = output_folder,
+                      file_name = paste(measurement_name, "-", suffix, sep = ""),
+                      width = 10, height = 6)
   
   gc()  # Call garbage collection to free memory
 }
