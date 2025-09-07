@@ -1435,7 +1435,7 @@ pc.plot.heatmap <- function(comparison_df,
   comparison_df$Method2 <- factor(comparison_df$Method2, levels = desired_order)
   
   # Create the heatmap
-  heatmap_plot <- ggplot(comparison_df, aes(x = Method1, y = Method2, fill = Count)) +
+  heatmap_plot <- ggplot(comparison_df, aes(x = Method2, y = Method1, fill = Count)) +
     geom_tile() +
     scale_fill_gradient(low = "white", high = "purple") +
     geom_text(aes(label = Count), color = "black", size = 6) + 
