@@ -1441,7 +1441,7 @@ pc.plot.heatmap <- function(comparison_df,
     geom_text(aes(label = Count), color = "black", size = 6) + 
     # Add numbers to each cell
     theme_minimal(base_size = 16) +  # aumenta base da fonte
-    labs(x = "Method 1", y = "Method 2", fill = "Count") +
+    labs(x = "Method 2", y = "Method 1", fill = "Count") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 16),  # eixo x maior
           axis.text.y = element_text(size = 16))  # eixo y maior  
   
