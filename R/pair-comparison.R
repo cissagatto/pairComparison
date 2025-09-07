@@ -1436,12 +1436,12 @@ pc.plot.heatmap <- function(comparison_df,
   
   # Create the heatmap
   heatmap_plot <- ggplot(comparison_df, aes(x = Method1, y = Method2, fill = Count)) +
-    # geom_tile() +
+    geom_tile() +
     scale_fill_gradient(low = "white", high = "purple") +
     geom_text(aes(label = Count), color = "black", size = 6) + 
     # Add numbers to each cell
     theme_minimal(base_size = 16) +  # aumenta base da fonte
-    labs(title = title, x = "Method 1", y = "Method 2", fill = "Count") +
+    labs(x = "Method 1", y = "Method 2", fill = "Count") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 16),  # eixo x maior
           axis.text.y = element_text(size = 16))  # eixo y maior  
   
