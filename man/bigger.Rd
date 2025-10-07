@@ -7,26 +7,25 @@
 bigger(x, y)
 }
 \arguments{
-\item{x}{A numeric value. This is the first number to be compared.}
+\item{x}{A numeric value. The first number to be compared.}
 
-\item{y}{A numeric value. This is the second number to be compared.}
+\item{y}{A numeric value. The second number to be compared.}
 }
 \value{
 A logical value. Returns `TRUE` if \code{x} is greater than 
 \code{y}, and `FALSE` otherwise.
-If either \code{x} or \code{y} is not numeric, the function returns 
-an error message.
+If either \code{x} or \code{y} is not numeric, the function throws an error.
 }
 \description{
 This function compares two numeric inputs and returns `TRUE` if the 
 first number is greater than
-the second number, and `FALSE` otherwise. It checks if the input values 
+the second number, and `FALSE` otherwise. It checks whether both inputs 
 are numeric.
 }
 \examples{
 bigger(5, 3) # returns TRUE
 bigger(2, 4) # returns FALSE
 bigger(3, 3) # returns FALSE
-bigger('a', 3) # returns an error message
+bigger('a', 3) # throws an error
 
 }

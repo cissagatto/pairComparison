@@ -4,13 +4,7 @@
 \alias{save.heatmap.as.pdf}
 \title{Save a Heatmap Plot as a PDF File}
 \usage{
-save.heatmap.as.pdf(
-  heatmap_plot,
-  file_path,
-  file_name,
-  width = width,
-  height = height
-)
+save.heatmap.as.pdf(heatmap_plot, file_path, file_name, width, height)
 }
 \arguments{
 \item{heatmap_plot}{A ggplot2 object representing the heatmap plot to be saved.}
@@ -28,13 +22,14 @@ NULL. This function is called for its side effect of saving a PDF file.
 }
 \description{
 This function saves a given heatmap plot as a PDF file in the specified directory.
+If the specified directory does not exist, it will be created automatically.
 }
 \examples{
 \dontrun{
 # Example of saving a heatmap plot
 heatmap_plot <- pc.plot.heatmap(comparison_df, title = "My Heatmap", order = desired_order)
 save.heatmap.as.pdf(heatmap_plot, 
-                    file_path = "C:/Users/Cissa/Documents/pairComparison/heatmaps", 
+                    file_path = "~/Documents/pairComparison/heatmaps", 
                     file_name = "heatmap_comparison")
 }
 

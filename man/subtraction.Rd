@@ -16,7 +16,7 @@ subtracted from \code{x}.}
 \value{
 A numeric value. The result of \code{x} minus \code{y}. 
 If either \code{x} or \code{y} 
-is not numeric, the function returns an error message.
+is not numeric, the function throws an error.
 }
 \description{
 This function subtracts the second numeric input from the first numeric 
@@ -27,6 +27,6 @@ It checks if the input values are numeric.
 subtraction(10, 5) # returns 5
 subtraction(3, 7)  # returns -4
 subtraction(4.5, 1.5) # returns 3
-subtraction('a', 3) # returns an error message
+subtraction('a', 3) # throws an error
 
 }

@@ -59,13 +59,13 @@ FolderScripts = "~/pairComparison/R"
 #'
 #' @return A numeric value. The result of \code{x} minus \code{y}. 
 #' If either \code{x} or \code{y} 
-#' is not numeric, the function returns an error message.
+#' is not numeric, the function throws an error.
 #'
 #' @examples
 #' subtraction(10, 5) # returns 5
 #' subtraction(3, 7)  # returns -4
 #' subtraction(4.5, 1.5) # returns 3
-#' subtraction('a', 3) # returns an error message
+#' subtraction('a', 3) # throws an error
 #'
 #' @export
 subtraction <- function(x, y) {
@@ -76,26 +76,26 @@ subtraction <- function(x, y) {
 }
 
 
+
 #' Compare Two Numbers for Greater Than
 #'
 #' This function compares two numeric inputs and returns `TRUE` if the 
 #' first number is greater than
-#' the second number, and `FALSE` otherwise. It checks if the input values 
+#' the second number, and `FALSE` otherwise. It checks whether both inputs 
 #' are numeric.
 #'
-#' @param x A numeric value. This is the first number to be compared.
-#' @param y A numeric value. This is the second number to be compared.
+#' @param x A numeric value. The first number to be compared.
+#' @param y A numeric value. The second number to be compared.
 #'
 #' @return A logical value. Returns `TRUE` if \code{x} is greater than 
 #' \code{y}, and `FALSE` otherwise.
-#' If either \code{x} or \code{y} is not numeric, the function returns 
-#' an error message.
+#' If either \code{x} or \code{y} is not numeric, the function throws an error.
 #'
 #' @examples
 #' bigger(5, 3) # returns TRUE
 #' bigger(2, 4) # returns FALSE
 #' bigger(3, 3) # returns FALSE
-#' bigger('a', 3) # returns an error message
+#' bigger('a', 3) # throws an error
 #'
 #' @export
 bigger <- function(x, y) {
@@ -227,8 +227,6 @@ lessEqual <- function(x, y) {
   }
   return(x <= y)
 }
-
-
 
 
 
@@ -807,12 +805,6 @@ extract_measure_names <- function(file_paths) {
 }
 
 
-
-
-
-
-
-
 #' Calculate Performance of Methods Across Datasets
 #'
 #' This function calculates the performance of methods across multiple 
@@ -935,11 +927,6 @@ total.performance.method <- function(folder.names.csv,
   retorno$all.average.row <- media.todos.r
   return(retorno)
 }
-
-
-
-
-
 
 
 #' Calculate and Compare Performance of Methods
@@ -1073,6 +1060,7 @@ total.performance.method.2 <- function(folder.names.csv,
   retorno$all.average.row <- media.todos.r
   return(retorno)
 }
+
 
 #' Compare Methods for a Single CSV File
 #'
@@ -1397,18 +1385,25 @@ pair.comparison.all.measures <- function(names.csvs,
 #' models or methods. Each cell in the heatmap corresponds to the comparison value
 #' between two methods, helping to identify relative performance patterns.
 #'
+#' @details
+#' **Requirements:**
+#' - The rows of the data frame must have names corresponding to the methods being compared.
+#'   In other words, both row names and column names must represent the same set of methods.
+#' - The title is optional. If `NULL` or an empty string, the heatmap will be displayed
+#'   without a title.
+#'
 #' @param comparison_df A square data frame or matrix containing numeric values.
 #'   Both row names and column names must correspond to method or model names.
-#' @param title A string specifying the title of the heatmap. Default is "Heatmap".
+#' @param title An optional string specifying the title of the heatmap.
+#'   If `NULL` or empty, no title will be displayed.
 #' @param desired_order An optional character vector defining the desired order
-#'   of methods on both axes. If NULL, the default row/column order is used.
+#'   of methods on both axes. If `NULL`, the default row/column order is used.
 #'
 #' @return
 #' A ggplot object representing the heatmap visualization. The object can be
 #' directly displayed with `print()` or saved using `ggsave()`.
 #'
 #' @examples
-#' # Example of a pairwise comparison matrix
 #' comparison_df <- data.frame(
 #'   Model_1 = c(14, 7, 9, 8),
 #'   Model_2 = c(9, 14, 12, 10),
@@ -1416,11 +1411,7 @@ pair.comparison.all.measures <- function(names.csvs,
 #'   Model_4 = c(6, 4, 9, 14),
 #'   row.names = c("Model_1", "Model_2", "Model_3", "Model_4")
 #' )
-#'
-#' # Define the desired order of methods
 #' desired_order <- c("Model_1", "Model_2", "Model_3", "Model_4")
-#'
-#' # Generate and display the heatmap
 #' heatmap_plot <- pc.plot.heatmap(
 #'   comparison_df = comparison_df,
 #'   title = "Model Comparison Heatmap",
@@ -1430,15 +1421,26 @@ pair.comparison.all.measures <- function(names.csvs,
 #'
 #' @export
 pc.plot.heatmap <- function(comparison_df, 
-                            title = "Heatmap",
+                            title = NULL,
                             desired_order = NULL) {
   
-  # Check that input is a square matrix or data.frame
+  #---------------------------------------------------------------
+  # Input validation
+  #---------------------------------------------------------------
+  
+  # Check that both row names and column names are present
   if (is.null(rownames(comparison_df)) || is.null(colnames(comparison_df))) {
-    stop("comparison_df must have both row names and column names.")
+    stop("comparison_df must have both row names and column names corresponding to method names.")
   }
   
-  # Convert matrix-like data.frame to long format
+  # ⚠️ Requirement: row and column names must represent the same set of methods
+  if (!identical(sort(rownames(comparison_df)), sort(colnames(comparison_df)))) {
+    stop("Row and column names of comparison_df must represent the same set of methods.")
+  }
+  
+  #---------------------------------------------------------------
+  # Convert to long (tidy) format
+  #---------------------------------------------------------------
   df_long <- as.data.frame(comparison_df) %>%
     tibble::rownames_to_column(var = "Method1") %>%
     tidyr::pivot_longer(
@@ -1447,34 +1449,47 @@ pc.plot.heatmap <- function(comparison_df,
       values_to = "Count"
     )
   
-  # Apply user-defined order if provided
+  #---------------------------------------------------------------
+  # Apply desired order if provided
+  #---------------------------------------------------------------
   if (!is.null(desired_order)) {
     df_long$Method1 <- factor(df_long$Method1, levels = desired_order)
     df_long$Method2 <- factor(df_long$Method2, levels = desired_order)
   }
   
+  #---------------------------------------------------------------
   # Create the heatmap
+  #---------------------------------------------------------------
   heatmap_plot <- ggplot(df_long, aes(x = Method2, y = Method1, fill = Count)) +
     geom_tile(color = "white") +
     geom_text(aes(label = Count), color = "black", size = 5) +
     scale_fill_gradient(low = "white", high = "purple") +
     theme_minimal(base_size = 14) +
-    labs(title = title, x = "Method 2", y = "Method 1", fill = "Count") +
+    labs(x = "Method 2", y = "Method 1", fill = "Count") +
     theme(
-      plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),
       axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
       axis.text.y = element_text(size = 12)
     )
+  
+  #---------------------------------------------------------------
+  # Add title only if provided
+  # ⚠️ Requirement: the title is optional — if NULL or "", it will not be displayed
+  #---------------------------------------------------------------
+  if (!is.null(title) && nzchar(title)) {
+    heatmap_plot <- heatmap_plot +
+      ggtitle(title) +
+      theme(plot.title = element_text(hjust = 0.5, size = 18, face = "bold"))
+  }
   
   return(heatmap_plot)
 }
 
 
 
-
 #' Save a Heatmap Plot as a PDF File
 #'
 #' This function saves a given heatmap plot as a PDF file in the specified directory.
+#' If the specified directory does not exist, it will be created automatically.
 #'
 #' @param heatmap_plot A ggplot2 object representing the heatmap plot to be saved.
 #' @param file_path A character string specifying the directory where the PDF file will be saved.
@@ -1489,7 +1504,7 @@ pc.plot.heatmap <- function(comparison_df,
 #' # Example of saving a heatmap plot
 #' heatmap_plot <- pc.plot.heatmap(comparison_df, title = "My Heatmap", order = desired_order)
 #' save.heatmap.as.pdf(heatmap_plot, 
-#'                     file_path = "C:/Users/Cissa/Documents/pairComparison/heatmaps", 
+#'                     file_path = "~/Documents/pairComparison/heatmaps", 
 #'                     file_name = "heatmap_comparison")
 #' }
 #'
@@ -1497,11 +1512,13 @@ pc.plot.heatmap <- function(comparison_df,
 save.heatmap.as.pdf <- function(heatmap_plot, 
                                 file_path, 
                                 file_name, 
-                                width = width, 
-                                height = height) {
+                                width, 
+                                height) {
   
-  # Check if the directory exists; if not, create the directory
-  dir.create(dirname(file_path), showWarnings = FALSE, recursive = TRUE)
+  # Ensure the directory exists
+  if (!dir.exists(file_path)) {
+    dir.create(file_path, showWarnings = FALSE, recursive = TRUE)
+  }
   
   # Create the PDF file
   pdf(file = file.path(file_path, paste0(file_name, ".pdf")), 
@@ -1516,8 +1533,5 @@ save.heatmap.as.pdf <- function(heatmap_plot,
   message("\n\nHeatmap saved as PDF at: ", 
           file.path(file_path, paste0(file_name, ".pdf")))
 }
-
-
-
 
 
