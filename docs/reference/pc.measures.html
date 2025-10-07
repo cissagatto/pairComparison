@@ -83,32 +83,35 @@ its type, which is represented as an integer.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">metric_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                names type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           accuracy    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  average-precision    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                clp    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           coverage    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 f1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       hamming-loss    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7          macro-auc    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8        macro-auprc    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9           macro-f1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   macro-precision    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11      macro-recall    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12       margin-loss    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13         micro-auc    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14       micro-auprc    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15          micro-f1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   micro-precision    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17      micro-recall    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18               mlp    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19         one-error    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20         precision    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21      ranking-loss    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22            recall    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23           roc-auc    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24     roc-auc-macro    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25     roc-auc-micro    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   subset-accuracy    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27               wlp    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        auprc_macro    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        auprc_micro    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      auprc_samples    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     auprc_weighted    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  average_precision    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                clp    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8           coverage    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                 f1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10      hamming_loss    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11         macro_auc    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12          macro_f1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13   macro_precision    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14      macro_recall    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15       margin_loss    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16         micro_auc    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17          micro_f1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   micro_precision    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19      micro_recall    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20               mlp    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21         one_error    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22         precision    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23      ranking_loss    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24            recall    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25     roc_auc_macro    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26     roc_auc_micro    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27   roc_auc_samples    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  roc_auc_weighted    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   subset_accuracy    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30               wlp    0</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -124,7 +127,7 @@ its type, which is represented as an integer.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
       </footer></div>

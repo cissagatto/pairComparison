@@ -35,20 +35,29 @@
 #                                                                            #
 ##############################################################################
 
+##############################################################################
+# PAIR COMPARISON ANALYSIS SCRIPT
+# Author: [Your Name]
+# Date: [YYYY-MM-DD]
+#
+# Description:
+#   This script performs pairwise model comparison for a single CSV file
+#   using the 'pairComparison' package.
+##############################################################################
 
 # Clear workspace
-rm(list=ls())
+rm(list = ls())
+
 
 
 
 ##############################################################################
 # Define Folder Paths
 ##############################################################################
-FolderRoot <- "~/pairComparison"               # Root folder for the project
-FolderScripts <- "~/pairComparison/R"           # Folder containing R scripts
-FolderData <- "~/pairComparison/data"           # Folder containing CSV data files
-FolderResults <- "~/pairComparison/results"     # Folder to save results
-
+FolderRoot    <- "~/pairComparison"            # Root project folder
+FolderScripts <- "~/pairComparison/R"          # Folder containing R scripts
+FolderData    <- "~/pairComparison/data"       # Folder containing CSV data files
+FolderResults <- "~/pairComparison/results"    # Folder to save comparison results
 
 
 
@@ -57,32 +66,46 @@ FolderResults <- "~/pairComparison/results"     # Folder to save results
 ##############################################################################
 library(pairComparison)
 
-# Note: Uncomment and modify the following lines if additional scripts are required
+
+# Optional: load additional scripts if necessary
 # setwd(FolderScripts)
-# source("libraries.R")       # Script to load necessary libraries
-# source("utils.R")           # Utility functions
-# source("pair-comparison.R") # Main pair comparison functions
+# source("libraries.R")        # Script to load extra libraries
+# source("utils.R")            # Utility functions
+# source("pair-comparison.R")  # Main pair comparison functions
 
 
 
 ##############################################################################
-# Comparison for a Single CSV File
+# Pairwise Comparison for a Single CSV File
 ##############################################################################
-# Define method names and file path
-names.methods <- c("Model_1", "Model_2", "Model_3", "Model_4")
-filename <- "C:/Users/Cissa/Documents/pairComparison/data/accuracy.csv"
 
-teste = data.frame(read.csv(filename))
-nomes.datasets = teste[,1]
+# Define model (method) names and desired order
+method.names       <- c("Model_1", "Model_2", "Model_3", "Model_4")
+method.names.order <- c("Model_1", "Model_2", "Model_3", "Model_4")
 
-# Perform comparison for a single measure
-results = pair.comparison(filename = filename, 
-                          FolderOrigin = FolderData,
-                          FolderDestiny = FolderResults, 
-                          measure.name = "accuracy",
-                          names.methods = names.methods) 
+# Define input CSV file
+filename <- file.path(FolderData, "accuracy.csv")
 
-# Acessando os resultados para uma medida específica
+# Load dataset
+data <- read.csv(filename, row.names = 1, check.names = FALSE)
+
+# Extract dataset names and method names
+dataset.names <- rownames(data)
+method.names  <- colnames(data)
+
+# Run pair comparison for a single metric (accuracy)
+results <- pair.comparison(
+  filename      = filename,
+  FolderOrigin  = FolderData,
+  FolderDestiny = FolderResults,
+  measure.name  = "accuracy",
+  names.methods = method.names
+)
+
+##############################################################################
+# Display Results
+##############################################################################
+cat("\n===== Pairwise Comparison Results (Accuracy) =====\n")
 print(results$greater_or_equal)
 print(results$less_or_equal)
 print(results$greater)
@@ -92,103 +115,150 @@ print(results$equal)
 
 
 ##############################################################################
-# Comparison for Multiple CSV Files
+# Pairwise Comparison for Multiple CSV Files
 ##############################################################################
-# Set working directory to the folder containing the CSV files
+
+# Set working directory to the data folder
 setwd(FolderData)
 
-# Get list of all CSV files in the directory
-files <- list.files(full.names = TRUE) 
+# Get all CSV files in the directory
+files <- list.files(pattern = "\\.csv$", full.names = TRUE)
 
 # Normalize file paths for consistency
-full_paths <- sapply(files, normalizePath)
+full_paths <- normalizePath(files)
 
-# Extract measure names from file paths
+# Extract measure names from file names (without extensions)
 extract_measure_names <- function(file_paths) {
-  # Extract file names from paths
   file_names <- basename(file_paths)
-  # Remove file extensions to get measure names
   measure_names <- tools::file_path_sans_ext(file_names)
   return(measure_names)
 }
 
-names.methods = c("Lo", "G", "H.Ra", "NH.Ra", "H.J.K1",
-                  "H.Ro.K1", "H.J.K2", "H.Ro.K2", "H.J.K3",  
-                  "H.Ro.K3", "H.J.T0", "H.Ro.T0", "H.J.T1", 
-                  "H.Ro.T1", "NH.J.K1", "NH.Ro.K1", "NH.J.K2", 
-                  "NH.Ro.K2", "NH.J.K3", "NH.Ro.K3", "NH.J.T0", 
-                  "NH.Ro.T0", "NH.J.T1", "NH.Ro.T1")
-
 measure_names <- extract_measure_names(full_paths)
 
-# Perform comparison for all measures
-results = pair.comparison.all.measures(names.csvs = full_paths,
-                                       FolderOrigin = FolderData, 
-                                       FolderDestiny = FolderResults,
-                                       names.methods = names.methods, 
-                                       names.measures = measure_names)
+# Define the method names (models)
+method.names.order <- c("Model_1", "Model_2", "Model_3", "Model_4")
 
+##############################################################################
+# Perform Pairwise Comparison for All Measures
+##############################################################################
+results <- pair.comparison.all.measures(
+  names.csvs     = full_paths,
+  FolderOrigin   = FolderData,
+  FolderDestiny  = FolderResults,
+  names.methods  = method.names.order,
+  names.measures = measure_names
+)
 
-#############################################################################
-# Acessando os resultados para uma medida específica
+##############################################################################
+# Plot Example Heatmap (Single Measure)
+##############################################################################
+cat("\n===== Example Heatmap for 'accuracy' =====\n")
 print(results$accuracy$greater_or_equal)
 
-comparison_df = data.frame(results$accuracy$greater_or_equal)
-pc.plot.heatmap(comparison_df, title = "Model Comparison Heatmap")
+# Prepare dataframe for heatmap
+comparison_df <- as.data.frame(results$accuracy$greater_or_equal)
 
-resultado = data.frame(read.csv("C:/Users/Cissa/Documents/pairComparison/data/accuracy.csv"))
-colnames(resultado)
+# Plot the heatmap
+pc.plot.heatmap2(
+  comparison_df  = comparison_df,
+  title          = "Model Comparison Heatmap (Accuracy)",
+  desired_order  = method.names.order
+)
+
 
 
 ##############################################################################
-# Set the base path
-base_path <- "C:/Users/Cissa/Documents/pairComparison/results"
+# HEATMAP GENERATION FOR ALL RESULT DIRECTORIES
+# Author: [Your Name]
+# Date: [YYYY-MM-DD]
+#
+# Description:
+#   This script iterates over all result directories produced by the
+#   'pairComparison' workflow, loads the corresponding pairwise comparison
+#   CSV files, and generates a heatmap (PDF) for each measurement.
+##############################################################################
+
+##############################################################################
+# Set Base Path
+##############################################################################
+base_path <- "~/pairComparison/results"
 setwd(base_path)
 
-# Get directory names and paths
+# Get all result directories (non-recursive)
 directories <- list.dirs(full.names = TRUE, recursive = FALSE)
 directory_names <- basename(directories)
 
-# Get measurement types
+# Retrieve measurement types from pairComparison package
 measurements <- pc.measures()
 
-# Define the desired order of methods
-desired_order <- c("Lo", "G", "H.Ra", "NH.Ra", "H.J.K1", "H.Ro.K1", 
-                   "H.J.K2", "H.Ro.K2", "H.J.K3", "H.Ro.K3", 
-                   "H.J.T0", "H.Ro.T0", "H.J.T1", "H.Ro.T1", 
-                   "NH.J.K1", "NH.Ro.K1", "NH.J.K2", "NH.Ro.K2", 
-                   "NH.J.K3", "NH.Ro.K3", "NH.J.T0", "NH.Ro.T0", 
-                   "NH.J.T1", "NH.Ro.T1")
 
-# Function to process each directory
+
+##############################################################################
+# Function to Process Each Directory
+##############################################################################
 process_directory <- function(index) {
-  # Get current directory path and corresponding measurement
-  current_path <- directories[index]
+  
+  # Identify current directory and corresponding measurement
+  current_path     <- directories[index]
   measurement_name <- directory_names[index]
   
-  # Load the measurement type for the current directory
-  measurement_type <- filter(measurements, names == measurement_name)$type
+  # Retrieve measurement type (1 = higher is better, 0 = lower is better)
+  measurement_type <- dplyr::filter(measurements, names == measurement_name)$type
   suffix <- ifelse(measurement_type == 1, "greater", "less")
   
-  # Build file names and paths
-  file_name <- paste(measurement_name, "-", suffix, "-datasets.csv", sep = "")
+  # Build input file path
+  file_name <- paste0(measurement_name, "-", suffix, "-datasets.csv")
   file_path <- file.path(current_path, file_name)
   
-  # Read data
-  data <- read.csv(file_path)
-  names(data)[1] <- "Method1"  # Rename the first column
+  # Define the desired method order
+  method.names.order <- c("Model_1", "Model_2", "Model_3", "Model_4")
+  
+  # Load data
+  data <- read.csv(file_path, check.names = FALSE)
+  
+  # Handle unwanted 'X' column created when saving CSV with row names
+  if ("X" %in% colnames(data)) {
+    rownames(data) <- data$X
+    data <- data[, !names(data) %in% "X"]
+  }
   
   # Generate the heatmap
-  heatmap_plot <- pc.plot.heatmap(data, title = "Comparison Heatmap", desired_order)
+  heatmap_plot <- pc.plot.heatmap2(
+    comparison_df = data,
+    title         = paste("Comparison Heatmap -", measurement_name),
+    desired_order = method.names.order
+  )
   
-  # Save the heatmap as a PDF
-  output_folder <- file.path("C:/Users/Cissa/Documents/pairComparison/results", measurement_name)
-  dir.create(output_folder, showWarnings = FALSE, recursive = TRUE)  # Create directory if it doesn't exist
-  save.heatmap.as.pdf(heatmap_plot, file_path = output_folder, file_name = paste(measurement_name, "-", suffix, sep = ""), width = 10, height = 6)
+  # Define and create output folder if it doesn’t exist
+  output_folder <- file.path(base_path, measurement_name)
+  dir.create(output_folder, showWarnings = FALSE, recursive = TRUE)
   
-  gc()  # Call garbage collection to free memory
+  # Save heatmap as PDF
+  save.heatmap.as.pdf(
+    heatmap_plot,
+    file_path = output_folder,
+    file_name = paste0(measurement_name, "-", suffix),
+    width = 10,
+    height = 6
+  )
+  
+  # Clean up memory
+  gc()
 }
 
-# Process each directory
+
+
+##############################################################################
+# Process All Directories
+##############################################################################
 lapply(seq_along(directories), process_directory)
+
+
+
+
+##############################################################################
+# End of Script
+##############################################################################
+
 

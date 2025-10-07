@@ -2,37 +2,47 @@
 % Please edit documentation in R/pair-comparison.R
 \name{pc.plot.heatmap}
 \alias{pc.plot.heatmap}
-\title{Plot Heatmap from Comparison Results}
+\title{Plot a Pairwise Comparison Heatmap}
 \usage{
-pc.plot.heatmap(comparison_df, title = "Heatmap", desired_order)
+pc.plot.heatmap(comparison_df, title = "Heatmap", desired_order = NULL)
 }
 \arguments{
-\item{comparison_df}{A data frame containing the comparison results. The data frame should
-be structured such that both rows and columns represent methods, with the values indicating 
-the number of datasets in which one method was compared to another.}
+\item{comparison_df}{A square data frame or matrix containing numeric values.
+Both row names and column names must correspond to method or model names.}
 
-\item{title}{A character string specifying the title of the heatmap.}
+\item{title}{A string specifying the title of the heatmap. Default is "Heatmap".}
 
-\item{desired_order}{A character vector specifying the desired order of methods for plotting.}
+\item{desired_order}{An optional character vector defining the desired order
+of methods on both axes. If NULL, the default row/column order is used.}
 }
 \value{
-A ggplot object representing the heatmap.
+A ggplot object representing the heatmap visualization. The object can be
+directly displayed with `print()` or saved using `ggsave()`.
 }
 \description{
-This function generates a heatmap from a dataframe where the values indicate 
-the number of datasets in which methods were compared. It utilizes ggplot2 for visualization.
+Creates a heatmap that visually represents pairwise comparison results between
+models or methods. Each cell in the heatmap corresponds to the comparison value
+between two methods, helping to identify relative performance patterns.
 }
 \examples{
-# Example data frame (replace with your actual data)
+# Example of a pairwise comparison matrix
 comparison_df <- data.frame(
-  Model_1 = c(14, 9, 5, 6),
-  Model_2 = c(7, 14, 2, 4),
-  Model_3 = c(9, 12, 14, 9),
-  Model_4 = c(8, 10, 5, 14),
+  Model_1 = c(14, 7, 9, 8),
+  Model_2 = c(9, 14, 12, 10),
+  Model_3 = c(5, 2, 14, 5),
+  Model_4 = c(6, 4, 9, 14),
   row.names = c("Model_1", "Model_2", "Model_3", "Model_4")
 )
 
-# Plot heatmap
-pc.plot.heatmap(comparison_df, title = "Comparison Heatmap", desired_order = c("Model_1", "Model_2", "Model_3", "Model_4"))
+# Define the desired order of methods
+desired_order <- c("Model_1", "Model_2", "Model_3", "Model_4")
+
+# Generate and display the heatmap
+heatmap_plot <- pc.plot.heatmap(
+  comparison_df = comparison_df,
+  title = "Model Comparison Heatmap",
+  desired_order = desired_order
+)
+print(heatmap_plot)
 
 }

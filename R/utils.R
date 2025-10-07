@@ -75,60 +75,88 @@ FolderScripts = "~/pairComparison/R"
 pc.measures <- function() {
   
   # Define the metric names and their types
-  names <- c("accuracy", 
-             "average-precision", 
-             "clp", 
-             "coverage", 
-             "f1", 
-             "hamming-loss", 
-             "macro-auc", 
-             "macro-auprc",
-             "macro-f1", 
-             "macro-precision", 
-             "macro-recall", 
-             "margin-loss", 
-             "micro-auc", 
-             "micro-auprc", 
-             "micro-f1", 
-             "micro-precision", 
-             "micro-recall", 
-             "mlp", 
-             "one-error", 
-             "precision", 
-             "ranking-loss", 
-             "recall", 
-             "roc-auc", 
-             "roc-auc-macro", 
-             "roc-auc-micro", 
-             "subset-accuracy", 
+  names <- c("accuracy",
+             "auprc_macro",
+             "auprc_micro",
+             "auprc_samples",
+             "auprc_weighted",
+             "average_precision",
+             
+             "clp",
+             "coverage",
+             
+             "f1",
+             
+             "hamming_loss",
+             
+             "macro_auc",
+             "macro_f1",
+             "macro_precision",
+             "macro_recall",
+             
+             "margin_loss",
+             
+             "micro_auc",
+             "micro_f1",
+             "micro_precision",
+             "micro_recall",
+             
+             "mlp",
+             "one_error",
+             
+             "precision",
+             
+             "ranking_loss",
+             
+             "recall",
+             "roc_auc_macro",
+             "roc_auc_micro",
+             "roc_auc_samples",
+             "roc_auc_weighted",
+             "subset_accuracy",
+             
              "wlp")
   
   type <- c(1, 
             1, 
-            0, 
-            0, 
             1, 
+            1, 
+            1, 
+            1, 
+            
             0, 
+            0,
+            
+            1, 
+            
+            0,
+            
+            1, 
+            1, 
+            1, 
+            1, 
+            
+            0,
+            
+            1, 
+            1, 
+            1, 
+            1, 
+            
+            0, 
+            0, 
+            
+            1, 
+            
+            0, 
+            
+            1, 
+            1, 
             1, 
             1,
-            1, 
-            1, 
-            1, 
-            0, 
-            1, 
-            1, 
-            1, 
-            1, 
-            1, 
-            0, 
-            0, 
-            1, 
-            0, 
-            1, 
-            1, 
-            1, 
-            1, 
-            1, 
+            1,
+            1,
+            
             0)
   
   # Create a data frame with the metric names and their types

@@ -43,16 +43,52 @@
 FolderRoot <- "~/pairComparison"
 FolderScripts <- "~/pairComparison/R"
 
+##############################################################################
+# FUNCTION: install (if necessary) and load packages
+##############################################################################
+install_and_load <- function(pkgs, repos = "https://cloud.r-project.org") {
+  for (p in pkgs) {
+    # Check if the package is already installed
+    if (!requireNamespace(p, quietly = TRUE)) {
+      message(sprintf("Package '%s' not found — installing...", p))
+      
+      # Try installing from CRAN; if it fails, try from Bioconductor
+      tryCatch(
+        install.packages(p, repos = repos),
+        error = function(e) {
+          message(sprintf("Failed to install '%s' from CRAN: %s", p, e$message))
+          
+          # Try installing BiocManager if not already available
+          if (!requireNamespace("BiocManager", quietly = TRUE)) {
+            message("Installing 'BiocManager' to try Bioconductor installation...")
+            install.packages("BiocManager", repos = repos)
+          }
+          
+          # Try installing the package from Bioconductor
+          message(sprintf("Attempting to install '%s' via Bioconductor...", p))
+          BiocManager::install(p, ask = FALSE)
+        }
+      )
+    }
+    
+    # Load the package after installation
+    library(p, character.only = TRUE)
+  }
+}
 
 ##############################################################################
-# LIBRARIES
+# LIST OF REQUIRED PACKAGES
 ##############################################################################
+packages_needed <- c(
+  "ggplot2",
+  "reshape2",
+  "dplyr",
+  "ggforce",
+  "stringr",
+  "tidyr"
+)
 
-library(ggplot2)
-library(reshape2)
-library(dplyr)
-library(ggforce)
-library(stringr)
-library(tidyr)
 
+# Execute installation and loading
+install_and_load(packages_needed)
 
